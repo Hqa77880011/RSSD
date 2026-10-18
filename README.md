@@ -44,6 +44,20 @@ Train `lif`, `plif`, `tet`, `explicit_norm`, `decay_only`, `threshold_only`, `dr
 
 Training writes the final checkpoint and loss history. Evaluation writes `samples.csv`, `rate_curve.csv` and `metrics.json`; comparison emits CSV/JSON and PNG/SVG plots. Rates use [0,1]. Keep the rate grid, splits, augmentation seed and local binning paired across methods.
 
+## Registered compact reproduction setting
+
+Width-32 spatial projection plus constrained LIF recurrence, 10 ms physical bins, 30 fixed epochs and the registered five-factor timestamp grid. A compact backbone preserves the coupled rate/tau/drive/threshold mechanism.
+
+Run from the repository root after installation. The following commands use the registered setting; they are provided for execution and have not been run as part of the source review.
+
+```bash
+rssd prepare --config configs/reproduce.json --input data/manifest.json --data data/reproduce
+rssd train --config configs/reproduce.json --data data/reproduce --output runs/reproduce
+rssd evaluate --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --output runs/reproduce
+```
+
+Required external inputs: grouped labeled event recordings with physical timestamps and sensor metadata. The formal input fields are specified above; preparation/training interfaces consume those fields directly. No particular paper dataset or pretrained task model is assumed beyond these declared inputs.
+
 ## Multiple seeds
 
 Run matched configurations with different seeds in separate directories, then aggregate the generated metric files:
