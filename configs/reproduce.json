@@ -21,5 +21,6 @@
     1.5,
     2.0
   ],
-  "device": "cpu"
+  "device": "cpu",
+  "input_source": "moving_edge_event_returns"
 }

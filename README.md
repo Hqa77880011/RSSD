@@ -46,17 +46,18 @@ Training writes the final checkpoint and loss history. Evaluation writes `sample
 
 ## Registered compact reproduction setting
 
-Width-32 spatial projection plus constrained LIF recurrence, 10 ms physical bins, 30 fixed epochs and the registered five-factor timestamp grid. A compact backbone preserves the coupled rate/tau/drive/threshold mechanism.
+Moving-edge trajectories produce timestamped spatial event returns and polarities. The classification target is the physical trajectory family. Whole recording groups are split before the existing timestamp/thinning/noise interventions; labels are not appended as feature channels.
 
-Run from the repository root after installation. The following commands use the registered setting; they are provided for execution and have not been run as part of the source review.
+Generate the declared input process, preprocess it, then use the existing method entry points:
 
 ```bash
-rssd prepare --config configs/reproduce.json --input data/manifest.json --data data/reproduce
+python -m rssd.synthetic --output data/generated --groups 24 --seed 17
+rssd prepare --config configs/reproduce.json --input data/generated/manifest.json --data data/reproduce
 rssd train --config configs/reproduce.json --data data/reproduce --output runs/reproduce
 rssd evaluate --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --output runs/reproduce
 ```
 
-Required external inputs: grouped labeled event recordings with physical timestamps and sensor metadata. The formal input fields are specified above; preparation/training interfaces consume those fields directly. No particular paper dataset or pretrained task model is assumed beyond these declared inputs.
+`source.json` records the data-generating assumptions and seed. The configuration records `input_source`. All inputs for this selected setting are generated locally using installed package dependencies.
 
 ## Multiple seeds
 
